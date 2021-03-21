@@ -4,7 +4,7 @@ import { StyleSheet, Text, View,Dimensions } from "react-native";
 import { ListItem, Avatar } from 'react-native-elements'
 const width = Dimensions.get("screen").width;
 
-const SubjectCard = () => {
+const SubjectCard = (props) => {
   return (
     <ListItem
       containerStyle={styles.mid111}
@@ -21,9 +21,9 @@ const SubjectCard = () => {
       {/* <Avatar rounded source={{ uri: avatar_url }} /> */}
       <ListItem.Content>
         <ListItem.Title
-          style={{ color: "black", fontWeight: "bold", fontSize: 30 ,alignSelf:'center'}}
+          style={{ color: "black", fontWeight: "bold", fontSize: 18 ,alignSelf:'center'}}
         >
-          <Text>gggiii</Text>
+          <Text>{props.Topic}</Text>
         </ListItem.Title>
       </ListItem.Content>
      

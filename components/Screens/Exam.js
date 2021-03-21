@@ -1,66 +1,94 @@
 import React, { Component } from "react";
-import Quiz from "./PlayLog";
-import { StyleSheet, StatusBar, TouchableOpacity, View,Dimensions } from "react-native";
+import Quiz, { Data } from "./PlayLog";
+import {
+  StyleSheet,
+  StatusBar,
+  TouchableOpacity,
+  View,
+  Dimensions,
+} from "react-native";
 import { Text } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 const { width, height } = Dimensions.get("window");
-
-export default class Exam extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      quizFinish: false,
-      score: 0,
-    };
+export const ScoreMessage=(props)=> {
+  if (props.score > 30) {
+    return (<View style={{ flex: 1, backgroundColor: "#bdbdbd" }}>
+    <StatusBar barStyle="light-content" />
+    <View style={styles.toolbar}>
+      <TouchableOpacity onPress={() => this._onPressBack()}>
+        <Text style={styles.toolbarButton}>
+          {" "}
+          <Ionicons name="chevron-back-circle" size={40} color="white" />
+        </Text>
+      </TouchableOpacity>
+      <Text h3 style={styles.toolbarTitle}>
+        Mcq Exam
+      </Text>
+      <Text h5 style={styles.toolbarButton}></Text>
+    </View>
+    <LinearGradient
+      // Background Linear Gradient
+      colors={["#12217A", "#3246BF", "#566DF7", "transparent"]}
+      // colors={['rgba(0,0,0,0.8)', 'transparent']}
+      style={styles.background}
+    >
+      <View style={styles.innerContainer}>
+        <View style={{ flexDirection: "row" }}>
+          <Icon name="trophy" size={30} color="white" />
+        </View>
+        <Text style={styles.score}>You need to work hard</Text>
+        <Text style={styles.score}>You scored {score}%</Text>
+      </View>
+      </LinearGradient>
+</View>
+    );
+  } else if (props.score > 30 && props.score < 60) {
+    return (
+      <View style={styles.innerContainer}>
+        <View style={{ flexDirection: "row" }}>
+          <Icon name="trophy" size={30} color="white" />
+          <Icon name="trophy" size={30} color="white" />
+        </View>
+        <Text style={styles.score}>You are good</Text>
+        <Text style={styles.score}>Congrats you scored {score}% </Text>
+      </View>
+    );
+  } else if (props.score >= 60) {
+    return (
+      <View style={styles.innerContainer}>
+        <View style={{ flexDirection: "row" }}>
+          <Icon name="trophy" size={30} color="white" />
+          <Icon name="trophy" size={30} color="white" />
+          <Icon name="trophy" size={30} color="white" />
+        </View>
+        <Text style={styles.score}>You are the master</Text>
+        <Text style={styles.score}>Congrats you scored {score}% </Text>
+      </View>
+    );
   }
-  _onPressBack() {
+}
+
+export default ScoreMessage;
+export const Exam=()=> {
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     quizFinish: false,
+  //     score: 0,
+  //   };
+  // }
+  const _onPressBack=()=> {
     const { goBack } = this.props.navigation;
     goBack();
   }
-  _quizFinish(score) {
+  const _quizFinish=(score)=> {
     this.setState({ quizFinish: true, score: score });
   }
-  _scoreMessage(score) {
-    if (score <= 30) {
-      return (
-        <View style={styles.innerContainer}>
-          <View style={{ flexDirection: "row" }}>
-            <Icon name="trophy" size={30} color="white" />
-          </View>
-          <Text style={styles.score}>You need to work hard</Text>
-          <Text style={styles.score}>You scored {score}%</Text>
-        </View>
-      );
-    } else if (score > 30 && score < 60) {
-      return (
-        <View style={styles.innerContainer}>
-          <View style={{ flexDirection: "row" }}>
-            <Icon name="trophy" size={30} color="white" />
-            <Icon name="trophy" size={30} color="white" />
-          </View>
-          <Text style={styles.score}>You are good</Text>
-          <Text style={styles.score}>Congrats you scored {score}% </Text>
-        </View>
-      );
-    } else if (score >= 60) {
-      return (
-        <View style={styles.innerContainer}>
-          <View style={{ flexDirection: "row" }}>
-            <Icon name="trophy" size={30} color="white" />
-            <Icon name="trophy" size={30} color="white" />
-            <Icon name="trophy" size={30} color="white" />
-          </View>
-          <Text style={styles.score}>You are the master</Text>
-          <Text style={styles.score}>Congrats you scored {score}% </Text>
-        </View>
-      );
-    }
-  }
-  render() {
+  
     return (
-      <View style={{flex:1, backgroundColor: "#bdbdbd" }}>
+      <View style={{ flex: 1, backgroundColor: "#bdbdbd" }}>
         <StatusBar barStyle="light-content" />
         <View style={styles.toolbar}>
           <TouchableOpacity onPress={() => this._onPressBack()}>
@@ -76,7 +104,7 @@ export default class Exam extends Component {
         </View>
         <LinearGradient
           // Background Linear Gradient
-          colors={["#12217A","#3246BF", "#566DF7", "transparent"]}
+          colors={["#12217A", "#3246BF", "#566DF7", "transparent"]}
           // colors={['rgba(0,0,0,0.8)', 'transparent']}
           style={styles.background}
         >
@@ -87,12 +115,13 @@ export default class Exam extends Component {
               </View>
             </View>
           ) : (
-            <Quiz quizFinish={(score) => this._quizFinish(score)} />
+            // <Quiz quizFinish={(score) => this._quizFinish(score)} />
+            <Data quizFinish={(score) => this._quizFinish(score)} />
           )}
         </LinearGradient>
       </View>
     );
-  }
+  
 }
 const scoreCircleSize = 300;
 const styles = StyleSheet.create({
@@ -100,7 +129,8 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 20,
     fontStyle: "italic",
-  },background: {
+  },
+  background: {
     position: "relative",
     left: 0,
     right: 0,

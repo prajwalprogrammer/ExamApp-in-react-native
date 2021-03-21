@@ -55,8 +55,8 @@ export default class Animbutton extends Component {
   render() {
     return (
       <TouchableWithoutFeedback onPress={() => this._onPress()}>
-        <Animatable.View ref="view" style={{ margin:10, paddingTop :10, paddingBottom: 10, paddingRight: 20, paddingLeft: 20, backgroundColor: this.props.countCheck== 0 && this.state.status   ? this.props.onColor : "#bdbdbd", borderRadius:20}}>
-          <Text style={{color: this.props.countCheck == 0 && this.state.status ? "white" : "#696969", fontWeight: "bold"}}>{this.props.text}</Text>
+        <Animatable.View ref="view" style={{ margin:10, paddingTop :10, height:40,width:'100%',alignSelf:'center',paddingBottom: 10, paddingRight: 20, paddingLeft: 20, backgroundColor: this.props.countCheck== 0 && this.state.status   ? this.props.onColor : "#bdbdbd", borderRadius:10}}>
+          <Text style={{color: this.props.countCheck == 0 && this.state.status ? "white" : "#696969", fontWeight: "bold",alignSelf:'center',fontSize:20}}>{this.props.text}</Text>
         </Animatable.View>
       </TouchableWithoutFeedback>
     );

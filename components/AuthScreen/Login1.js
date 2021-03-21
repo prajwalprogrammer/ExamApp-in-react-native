@@ -1,36 +1,43 @@
-import React, { useContext, useState, Fragment } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Feather from 'react-native-vector-icons/Feather';
-import * as Animatable from 'react-native-animatable';
-import AsyncStorage from '@react-native-community/async-storage';
-import { Login1 } from '../Url';
+import React, { useContext, useState, Fragment, useEffect } from "react";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { TextInput } from "react-native-gesture-handler";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import Feather from "react-native-vector-icons/Feather";
+import * as Animatable from "react-native-animatable";
+import AsyncStorage from "@react-native-community/async-storage";
+import { Login1, fetchdailydata } from "../Url";
 
 //import {AsyncStorage} from '@react-native-community/async-storage'
-import { Formik } from 'formik';
-import * as Yup from 'yup';
-import { Container, Header, Content, Badge, Icon, Button } from 'native-base';
+import { Formik } from "formik";
+import * as Yup from "yup";
+import { Container, Header, Content, Badge, Icon, Button } from "native-base";
 
-import FormButton from './ButtonFormik';
-import ErrorMessage from './ErrorFormik';
+import FormButton from "./ButtonFormik";
+import ErrorMessage from "./ErrorFormik";
+import { AuthContext } from "../Navigation/AuthProvider";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
-    .label('Email')
-    .email('Enter a valid email')
-    .required('Please enter a registered email'),
+    .label("Email")
+    .email("Enter a valid email")
+    .required("Please enter a registered email"),
   password: Yup.string()
-    .label('Password')
+    .label("Password")
     .required()
-    .min(4, 'Password must have more than 4 characters '),
+    .min(4, "Password must have more than 4 characters "),
 });
 
 const Login = ({ navigation }) => {
-  const [Email, setEmail] = useState('value@gmail.com');
-  const [Password, setPassword] = useState('902115565');
+  const { user, setUser } = useContext(AuthContext);
+
+  const [data, setData] = useState([]);
+  const [Email, setEmail] = useState("value@gmail.com");
+  const [Password, setPassword] = useState("902115565");
   const [InputChange, setInputChange] = useState(false);
   const [secureTextEntry, setsecureTextEntry] = useState(true);
+  useEffect(() => {
+    console.log("gg" + JSON.stringify(user));
+  }, [user]);
   const TextChange = (value) => {
     if (value.length !== 0) {
       setEmail(value);
@@ -40,19 +47,29 @@ const Login = ({ navigation }) => {
     }
   };
   const Submit = async () => {
-    console.log('object');
+    console.log("object");
     // await AsyncStorage.setItem("isLoggedIn","1");
     // navigation.navigate("App")
   };
   const handleSubmit = async (values) => {
     if (values.email.length > 0 && values.password.length > 0) {
-      alert(values.email)
-      var data = await Login1(values.email,values.password,navigation);
-          values.email='',
-          values.password=''
+      await fetchdailydata(values.email, values.password, navigation).then(
+        async (res) => {
+          await setUser(res);
+          await AsyncStorage.setItem(
+            "@MySuperStore:key",
+            JSON.stringify(res)
+          );
+
+          await AsyncStorage.setItem("userToken", "abc");
+          navigation.navigate("App");
+        }
+      );
+
       // this.props.navigation.navigate('App')
       // alert('Sucessfull');
     }
+    (values.email = ""), (values.password = "");
   };
   return (
     <View style={styles.container}>
@@ -61,11 +78,12 @@ const Login = ({ navigation }) => {
       </View>
       <Animatable.View style={styles.footer} animation="fadeInUpBig">
         <Formik
-          initialValues={{ email: '', password: '' }}
+          initialValues={{ email: "", password: "" }}
           onSubmit={(values) => {
             handleSubmit(values);
           }}
-          validationSchema={validationSchema}>
+          validationSchema={validationSchema}
+        >
           {({
             handleChange,
             values,
@@ -101,13 +119,13 @@ const Login = ({ navigation }) => {
                 />
                 <TextInput
                   autoCompleteType="email"
-                  onBlur={handleBlur('email')}
+                  onBlur={handleBlur("email")}
                   placeholder="Enter E-mail"
                   style={styles.TextInput}
                   autoCapitalize="none"
                   //name={name}
                   value={values.email}
-                  onChangeText={handleChange('email')}
+                  onChangeText={handleChange("email")}
 
                   // onChange={(value) => setEmail(value)}
                 />
@@ -147,10 +165,11 @@ const Login = ({ navigation }) => {
                   secureTextEntry={secureTextEntry}
                   placeholder="Enter your Mobile No"
                   style={styles.TextInput}
-                  onChangeText={handleChange('password')}
+                  onChangeText={handleChange("password")}
                 />
                 <TouchableOpacity
-                  onPress={() => setsecureTextEntry(!secureTextEntry)}>
+                  onPress={() => setsecureTextEntry(!secureTextEntry)}
+                >
                   {secureTextEntry ? (
                     <Feather name="eye-off" color="gray" size={20} />
                   ) : (
@@ -164,11 +183,12 @@ const Login = ({ navigation }) => {
                   onPress={handleSubmit}
                   style={{
                     ...styles.signIn,
-                    borderColor: '#4dc2f8',
+                    borderColor: "#4dc2f8",
                     borderWidth: 1,
                     // marginTop: 15,
-                  }}>
-                  <Text style={{ ...styles.TextSign, color: '#4dc2f8' }}>
+                  }}
+                >
+                  <Text style={{ ...styles.TextSign, color: "#4dc2f8" }}>
                     Login
                   </Text>
                 </TouchableOpacity>
@@ -179,14 +199,15 @@ const Login = ({ navigation }) => {
 
         <View style={styles.Button1}>
           <TouchableOpacity
-            onPress={() => navigation.navigate('SignupSplash')}
+            onPress={() => navigation.navigate("SignupSplash")}
             style={{
               ...styles.signIn,
-              borderColor: '#4dc2f8',
+              borderColor: "#4dc2f8",
               borderWidth: 1,
               // marginTop: 15,
-            }}>
-            <Text style={{ ...styles.TextSign, color: '#4dc2f8' }}>
+            }}
+          >
+            <Text style={{ ...styles.TextSign, color: "#4dc2f8" }}>
               Sign Up
             </Text>
           </TouchableOpacity>
@@ -202,11 +223,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
 
-    backgroundColor: '#05375a',
+    backgroundColor: "#05375a",
   },
   footer: {
     flex: 2,
-    backgroundColor: '#ffffff',
+    backgroundColor: "#ffffff",
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     paddingVertical: 30,
@@ -215,50 +236,50 @@ const styles = StyleSheet.create({
   logo: {
     // width:heightlogo,
     // height:heightlogo,
-    alignSelf: 'center',
-    marginTop: '40%',
+    alignSelf: "center",
+    marginTop: "40%",
   },
   Button1: {
-    alignItems: 'center',
+    alignItems: "center",
     marginVertical: 20,
   },
   signIn: {
-    width: '100%',
+    width: "100%",
     height: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     borderRadius: 10,
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   TextSign: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginHorizontal: 20,
   },
   Text: {
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
     fontSize: 30,
   },
   TextFooter: {
-    color: '#05375a',
+    color: "#05375a",
     fontSize: 18,
   },
   TextInput: {
     flex: 1,
     paddingLeft: 10,
-    color: '#05375a',
+    color: "#05375a",
   },
   Action: {
     marginTop: 10,
-    flexDirection: 'row',
+    flexDirection: "row",
     borderBottomWidth: 1,
-    borderBottomColor: '#f2f2f2',
+    borderBottomColor: "#f2f2f2",
     paddingBottom: 5,
   },
   header: {
     flex: 1,
-    justifyContent: 'flex-end',
+    justifyContent: "flex-end",
     paddingHorizontal: 20,
     paddingBottom: 50,
   },

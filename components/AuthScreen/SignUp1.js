@@ -6,6 +6,8 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity,
 } from "react-native";
+import { Picker } from "@react-native-picker/picker";
+
 import { TextInput } from "react-native-gesture-handler";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -37,6 +39,7 @@ const validationSchema = Yup.object().shape({
 
     // .oneOf([Yup.ref('password')], 'Confirm Password must matched Password')
     .required("Confirm Password is required"),
+  Class: Yup.string().required("Select A class"),
 });
 const SignUp = ({ navigation }) => {
   let controller;
@@ -48,6 +51,7 @@ const SignUp = ({ navigation }) => {
   const [secureTextEntry1, setsecureTextEntry1] = useState(true);
   const [country, setCountry] = useState("Uk");
   const [value, setValue] = useState(null);
+  const [selectedLanguage, setSelectedLanguage] = useState();
 
   const TextChange = (value) => {
     if (value.length !== 0) {
@@ -68,18 +72,25 @@ const SignUp = ({ navigation }) => {
       values.email.length > 0 &&
       values.password.length > 0 &&
       values.name.length > 0 &&
-      values.confirmPassword.length > 0 &&
-      values.Class != "Select Class"
+      values.confirmPassword.length > 0
     ) {
-      await Register(
-        values.name,
-        values.email,
-        values.password,
-        values.confirmPassword,
-        values.Class,
-        navigation
-      );
+      alert(values.Class)
+      // await Register(
+      //   values.name,
+      //   values.email,
+      //   values.password,
+      //   values.confirmPassword,
+      //   navigation
+      // );
+            // await RegisterUser(values.email, values.password, navigation).then(
+            //   async (res) => {
+            //     //await setUser(res);
+            //     await AsyncStorage.setItem("@MySuperStore:key", JSON.stringify(res));
 
+            //     await AsyncStorage.setItem("userToken", "abc");
+            //     navigation.navigate("App");
+            //   }
+            // );
       // await AsyncStorage.setItem('isLoggedIn', '1');
       //  navigation.navigate('App');
       // this.props.navigation.navigate('App')
@@ -98,7 +109,7 @@ const SignUp = ({ navigation }) => {
             email: "",
             password: "",
             confirmPassword: "",
-            Class: "Select Class",
+            Class: "",
           }}
           onSubmit={(values) => {
             handleSubmit(values);
@@ -203,8 +214,30 @@ const SignUp = ({ navigation }) => {
                 iconColor='#2C384A'
                 onBlur={handleBlur('confirmPassword')}
               /> */}
-              <Text style={{ ...styles.TextFooter }}>Select Class</Text>
-              <DropDownPicker
+              <Text style={{ ...styles.TextFooter }}>Class</Text>
+
+              <Picker
+                style={{ height: 40, width: "100%",borderColor:'red'}}
+                mode="dropdown"
+                //prompt={"Select language"}
+                itemStyle={{ backgroundColor: "red" ,borderColor:'red'}}
+                selectedValue={Number(values.Class)}
+                dropdownIconColor="black"
+                // onValueChange={(itemValue)=>('Class', itemValue)}
+                //  onValueChange={e => {
+                //   Formik.setFieldValue("Class", e);
+                // }}
+                onValueChange={(...args) =>
+                  handleChange("Class")(String(args[1]))
+                }
+              >
+                <Picker.Item label="First Year" value={0} key={0} />
+                <Picker.Item label="Second Year" value={1} key={1} />
+                <Picker.Item label="Third Year" value={2} key={2} />
+              </Picker>
+              <ErrorMessage errorValue={touched.Class && errors.Class} />
+
+              {/* <DropDownPicker
                 dropDownStyle={{ backgroundColor: "#fafafa" }}
                 itemStyle={{
                   justifyContent: "flex-start",
@@ -228,7 +261,7 @@ const SignUp = ({ navigation }) => {
                 }}
                 defaultValue={value}
                 onChangeItem={(item) => setValue(item.value)}
-              />
+              /> */}
               <Text style={{ ...styles.TextFooter, marginTop: 15 }}>
                 Gender
               </Text>
@@ -346,7 +379,7 @@ const styles = StyleSheet.create({
     color: "gray",
   },
   footer: {
-    flex: 5,
+    flex: 6,
     backgroundColor: "#ffffff",
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,

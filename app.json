@@ -1,12 +1,16 @@
 {
   "expo": {
-    "name": "operand2",
-    "slug": "snack-2d179d0f-4981-4150-977b-6851ab4e11af",
+    "name": "ExamDemo",
+    "slug": "ExamDemo",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "githubUrl":"https://github.com/prajwalprogrammer/ExamApp-in-react-native",
+    "icon": "./assets/operand.png",
+    "androidStatusBar":{
+      "backgroundColor":"#12217A"
+    },
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/operand.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -20,11 +24,10 @@
       "supportsTablet": true
     },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      }
+      "package": "com.operand.ExamDemo",
+      "versionCode": 1
     },
+
     "web": {
       "favicon": "./assets/favicon.png"
     }

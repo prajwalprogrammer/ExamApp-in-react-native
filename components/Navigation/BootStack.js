@@ -20,6 +20,7 @@ import Login from '../AuthScreen/Login1';
 import Points from '../Screens/Points';
 import LoginScreen from '../AuthScreen/LoginScreen/Login';
 import RegistrationScreen from '../AuthScreen/Register/Register';
+import UpdateAccount from '../Screens/UpdateAccount';
 const forFade = ({ current, next }) => {
   const opacity = Animated.add(
     current.progress,
@@ -66,8 +67,16 @@ const AppSTack = createStackNavigator({
       headerStyleInterpolator: forFade
     },
   },
-  Exam: {
-    screen: Exam,
+  // Exam: {
+  //   screen: Exam,
+  //   navigationOptions: {
+  //     headerShown: false,
+  //     headerStyleInterpolator: forFade
+
+  //   },
+  // },
+  Update: {
+    screen: UpdateAccount,
     navigationOptions: {
       headerShown: false,
       headerStyleInterpolator: forFade
