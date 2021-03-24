@@ -27,7 +27,7 @@ import Cards from "./Cards";
 import { AuthContext } from "../Navigation/AuthProvider";
 export const DashBoard = ({ navigation }) => {
   const { user, setUser } = useContext(AuthContext);
-  // console.log(user[0])
+   console.log("user"+user[0])
   const [PrintedData, setPrintedData] = useState(null);
   const [isModalVisible, setModalVisible] = useState(false);
   const [Visible, setVisible] = useState(false);
@@ -37,6 +37,7 @@ export const DashBoard = ({ navigation }) => {
       console.log("myarray" + JSON.parse(myArray));
       setPrintedData(JSON.parse(myArray));
       console.log(PrintedData);
+      console.log("object"+user)
     }
     GetAsync();
   }, []);

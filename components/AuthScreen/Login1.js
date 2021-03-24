@@ -24,8 +24,7 @@ const validationSchema = Yup.object().shape({
   password: Yup.string()
     .label("Password")
     .required()
-    .min(4, "Password must have more than 4 characters "),
-});
+    .min(10, "mobile No must contain 10 numbers ")});
 
 const Login = ({ navigation }) => {
   const { user, setUser } = useContext(AuthContext);
@@ -55,6 +54,9 @@ const Login = ({ navigation }) => {
     if (values.email.length > 0 && values.password.length > 0) {
       await fetchdailydata(values.email, values.password, navigation).then(
         async (res) => {
+          if(res ==="Invalid Username or Password Please Try Again")
+            alert(res)
+          else{
           await setUser(res);
           await AsyncStorage.setItem(
             "@MySuperStore:key",
@@ -63,6 +65,7 @@ const Login = ({ navigation }) => {
 
           await AsyncStorage.setItem("userToken", "abc");
           navigation.navigate("App");
+          }
         }
       );
 

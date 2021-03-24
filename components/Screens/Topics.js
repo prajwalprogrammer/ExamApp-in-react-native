@@ -1,11 +1,10 @@
-import React,{useEffect,useState} from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   StatusBar,
   SafeAreaView,
   Dimensions,
   StyleSheet,
-  
 } from "react-native";
 import {
   List,
@@ -19,13 +18,15 @@ import {
   Right,
 } from "native-base";
 import { LinearGradient } from "expo-linear-gradient";
-import {  TabView,
+import {
+  TabView,
   TabBar,
   SceneMap,
   NavigationState,
-  SceneRendererProps } from "react-native-tab-view";
+  SceneRendererProps,
+} from "react-native-tab-view";
 
-import { Avatar, colors,Text } from "react-native-elements";
+import { Avatar, colors, Text } from "react-native-elements";
 import { Ionicons } from "@expo/vector-icons";
 
 import {
@@ -35,47 +36,107 @@ import {
 import SubjectCard from "./SubjectCard";
 import Des from "./Des";
 import Video1 from "./Video";
-import Exam from './Exam'
+import Exam from "./Exam";
 import Data1 from "./PlayLog";
-import {GetMcq } from '../Url';
+import { GetMcq, getVideo } from "../Url";
+import Icon from "react-native-vector-icons/FontAwesome";
+
 const height = Dimensions.get("screen").height;
 
 const initialLayout = { width: Dimensions.get("window").width };
-export const Topics = ({ route,navigation }) => {
+export const Topics = ({ route, navigation }) => {
   const [index, setIndex] = useState(0);
   const [routes] = useState([
     { key: "first", title: "Des" },
     { key: "second", title: "Video" },
-    {key:"third",title:"Exam"}
+    { key: "third", title: "Exam" },
   ]);
-  const [McqList, setMcqList] = useState()
+  const [McqList, setMcqList] = useState();
+  const [quizFinish, setQuizFinish] = useState(false);
+  const [score, setScore] = useState(0);
+  const [Data, setData] = useState();
   useEffect(() => {
-    const message = navigation.getParam('TopicId');
-  // alert(message)
+    const message = navigation.getParam("TopicId");
+    // alert(message)
     const fetchAPI = async () => {
-      setMcqList(await GetMcq(message))
-     // console.log("McqList"+McqList)
+      setMcqList(await GetMcq(message));
+      setData(await getVideo(message));
+      // console.log("McqList"+McqList)
     };
     fetchAPI();
-    
-  }, [])
-  const FirstRoute = () => (
-    <View style={{ flex: 1, backgroundColor: '#ff4081' }}>
-     {McqList?<Data1 McQList={McqList} />:null}
-      </View>
+  }, []);
 
+  const ScoreMessage = (score) => {
+    // alert("hii")
+    if (score > 30) {
+      return (
+        <View style={styles.innerContainer}>
+          <View style={{ flexDirection: "row" }}>
+            <Icon name="trophy" size={30} color="white" />
+          </View>
+          <Text style={styles.score}>You need to work hard</Text>
+          <Text style={styles.score}>You scored %</Text>
+        </View>
+      );
+    } else if (score > 30 && score < 60) {
+      return (
+        <View style={styles.innerContainer}>
+          <View style={{ flexDirection: "row" }}>
+            <Icon name="trophy" size={30} color="white" />
+            <Icon name="trophy" size={30} color="white" />
+          </View>
+          <Text style={styles.score}>You are good</Text>
+          <Text style={styles.score}>Congrats you scored {score}% </Text>
+        </View>
+      );
+    } else if (score >= 60) {
+      return (
+        <View style={styles.innerContainer}>
+          <View style={{ flexDirection: "row" }}>
+            <Icon name="trophy" size={30} color="white" />
+            <Icon name="trophy" size={30} color="white" />
+            <Icon name="trophy" size={30} color="white" />
+          </View>
+          <Text style={styles.score}>You are the master</Text>
+          <Text style={styles.score}>Congrats you scored {score}% </Text>
+        </View>
+      );
+    }
+  };
+
+  const quizfinish = (score) => {
+    setQuizFinish(true);
+    setScore(score);
+    console.log(score);
+    // this.setState({ quizFinish: true, score: score });
+  };
+
+  const ThirdRoute = () => (
+    <View style={{ flex: 1, backgroundColor: "#ff4081" }}>
+      {/* {McqList?<Data1 McQList={McqList} />:null} */}
+      {quizFinish ? (
+        <View style={{ alignItem: "center", justifyContent: "center" }}>
+          <View style={styles.circle}>{ScoreMessage(score)}</View>
+        </View>
+      ) : // <Quiz quizFinish={(score) => this._quizFinish(score)} />
+      McqList ? (
+        <Data1 McQList={McqList} quizFinish={(score) => quizfinish(score)} />
+      ) : null}
+    </View>
   );
+  const FirstRoute = () => (Data ? <Des Link={Data[0].lesswisedesc} /> : null);
+  const SecondRoute = () =>
+    Data ? <Video1 Link={JSON.stringify(Data[0].lesswisevideo)} /> : null;
   const renderScene = SceneMap({
-    first: Des,
-    second: Video1,
-    third: FirstRoute
+    first: FirstRoute,
+    second: SecondRoute,
+    third: ThirdRoute,
   });
-  
-  
+
   return (
     <View style={{}}>
       <StatusBar style="light" />
-      <Header style={{ height: 80,borderWidth:0 }}>
+      <Header style={{ height: 80, borderWidth: 0 }}>
         <Left>
           <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
             <Ionicons name="chevron-back-circle" size={40} color="white" />
@@ -95,13 +156,15 @@ export const Topics = ({ route,navigation }) => {
           style={styles.background}
         >
           <TabView
-          lazy
-          sceneContainerStyle={styles.container}
+            lazy
+            sceneContainerStyle={styles.container}
             navigationState={{ index, routes }}
             renderScene={renderScene}
             onIndexChange={setIndex}
             initialLayout={initialLayout}
-            renderTabBar={props => <TabBar {...props} style={{backgroundColor: '#12217A'}}/>}
+            renderTabBar={(props) => (
+              <TabBar {...props} style={{ backgroundColor: "#12217A" }} />
+            )}
           />
         </LinearGradient>
       </View>
@@ -109,7 +172,27 @@ export const Topics = ({ route,navigation }) => {
   );
 };
 export default Topics;
+const scoreCircleSize = 300;
+
 const styles = StyleSheet.create({
+  score: {
+    color: "white",
+    fontSize: 20,
+    fontStyle: "italic",
+  },
+  circle: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: scoreCircleSize,
+    height: scoreCircleSize,
+    borderRadius: scoreCircleSize / 2,
+    backgroundColor: "green",
+  },
+  innerContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   background: {
     position: "relative",
     left: 0,
@@ -129,23 +212,23 @@ const styles = StyleSheet.create({
   },
   container: {
     //marginTop: StatusBar.currentHeight,
-    flex:1,
-    backgroundColor:'white',
-   // marginBottom:"30%"
+    flex: 1,
+    backgroundColor: "white",
+    // marginBottom:"30%"
   },
   scene: {
     flex: 1,
   },
   tabbar: {
-    backgroundColor: '#3f51b5',
+    backgroundColor: "#3f51b5",
   },
   tab: {
     width: 120,
   },
   indicator: {
-    backgroundColor: '#ffeb3b',
+    backgroundColor: "#ffeb3b",
   },
   label: {
-    fontWeight: '400',
+    fontWeight: "400",
   },
 });

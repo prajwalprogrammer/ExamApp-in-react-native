@@ -74,7 +74,8 @@ const SignUp = ({ navigation }) => {
       values.name.length > 0 &&
       values.confirmPassword.length > 0
     ) {
-      alert(values.Class)
+      // alert(values.Class)
+alert("Unable To SignUp")
       // await Register(
       //   values.name,
       //   values.email,

@@ -432,7 +432,8 @@ export const Data1 = (props) => {
     } else {
       // setShowScore(true);
       alert(score);
-      Message((score * 100) / 5);
+      //Message((score * 100) / 5);
+      props.quizFinish(Math.floor(score * 100) / 3)
     }
   };
   return (
