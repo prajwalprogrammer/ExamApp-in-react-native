@@ -1,7 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
-import { View, StatusBar, SafeAreaView, Image, Button } from "react-native";
+import { View, StatusBar, SafeAreaView, Image, Button ,StyleSheet,Dimensions} from "react-native";
 
 import AsyncStorage from "@react-native-community/async-storage";
+import { LinearGradient } from "expo-linear-gradient";
 
 import {
   TouchableOpacity,
@@ -9,6 +10,8 @@ import {
   TouchableHighlight,
   TouchableWithoutFeedback,
 } from "react-native-gesture-handler";
+const height = Dimensions.get("screen").height;
+
 import {
   List,
   ListItem,
@@ -27,7 +30,7 @@ import Cards from "./Cards";
 import { AuthContext } from "../Navigation/AuthProvider";
 export const DashBoard = ({ navigation }) => {
   const { user, setUser } = useContext(AuthContext);
-   console.log("user"+user[0])
+  console.log("user" + user[0]);
   const [PrintedData, setPrintedData] = useState(null);
   const [isModalVisible, setModalVisible] = useState(false);
   const [Visible, setVisible] = useState(false);
@@ -37,7 +40,7 @@ export const DashBoard = ({ navigation }) => {
       console.log("myarray" + JSON.parse(myArray));
       setPrintedData(JSON.parse(myArray));
       console.log(PrintedData);
-      console.log("object"+user)
+      console.log("object" + user);
     }
     GetAsync();
   }, []);
@@ -47,8 +50,12 @@ export const DashBoard = ({ navigation }) => {
   };
   return (
     <View style={{}}>
-      <StatusBar hidden={false} barStyle="light-content" />
-      <Header style={{ height: 80 }}>
+      <StatusBar
+        hidden={false}
+        barStyle={"dark-content"}
+        style={{ backgroundColor: "#336699" }}
+      />
+      <Header style={{ height: 80, backgroundColor: "#336699" }} androidStatusBarColor="#336699">
         <Left>
           <Image source={require("../../assets/out.png")} />
         </Left>
@@ -68,7 +75,7 @@ export const DashBoard = ({ navigation }) => {
                 ? PrintedData[0].name.charAt(0).toUpperCase()
                 : " "
             }
-            size="small"
+            size="medium"
             titleStyle={{ color: "#eee" }}
             containerStyle={{
               backgroundColor: "red",
@@ -128,6 +135,13 @@ export const DashBoard = ({ navigation }) => {
           />
         </View>
       ) : null}
+      <View style={{flex:1}}>
+      <LinearGradient
+          // Background Linear Gradient
+          colors={["#3973ac", "#4080bf", "#538cc6", "transparent"]}
+          // colors={['rgba(0,0,0,0.8)', 'transparent']}
+          style={styles.background}
+        >
       <View
         style={{
           marginVertical: 10,
@@ -144,20 +158,31 @@ export const DashBoard = ({ navigation }) => {
             })
           }
         >
-          <Cards name="Subject" mr={20} img={require("../../assets/out.png")} />
+          <Cards name="Subject" mr={20} img={require("../../assets/Exam-Content-logo.png")} />
         </TouchableWithoutFeedback>
-        <TouchableWithoutFeedback>
+        {/* <TouchableWithoutFeedback>
           <Cards name="Exam" mr={20} img={require("../../assets/out.png")} />
-        </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback> */}
       </View>
-      <View style={{ width: "100%" }}>
+      </LinearGradient>
+      </View>
+      {/* <View style={{ width: "100%" }}>
         <Image
           source={require("../../assets/operand-removebg.png")}
           resizeMode="contain"
-          style={{width:'100%'}}
+          style={{ width: "100%" }}
         />
-      </View>
+      </View> */}
     </View>
   );
 };
 export default DashBoard;
+const styles=StyleSheet.create({
+  background: {
+    position: "relative",
+    left: 0,
+    right: 0,
+    top: 0,
+    height: height,
+  },
+})

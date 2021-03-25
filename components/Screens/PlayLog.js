@@ -350,7 +350,7 @@ export const Data = (props) => {
 export const Data1 = (props) => {
   // console.log("List"+JSON.stringify(props.McQList[0]["1"]))
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [score, setScore] = useState(0);
+  const [score, setScore] = useState(1);
   const [showScore, setShowScore] = useState(false);
   const [Bg, setBg] = useState(false);
   const [Tx, setTx] = useState(false);
@@ -431,9 +431,9 @@ export const Data1 = (props) => {
       setTimeout(() => setCurrentQuestion(nextQuestion), 1000);
     } else {
       // setShowScore(true);
-      alert(score);
+     // alert(score);
       //Message((score * 100) / 5);
-      props.quizFinish(Math.floor(score * 100) / 3)
+      props.quizFinish(Math.floor((score * 100) / 5))
     }
   };
   return (
@@ -441,16 +441,16 @@ export const Data1 = (props) => {
       style={{
         height: height - 250,
         width: width - 40,
-        backgroundColor: "#F5FCFF",
+        backgroundColor: "#eee",
         paddingTop: 30,
         alignSelf: "center",
         justifyContent: "center",
-        paddingVertical: "20%",
+       // paddingVertical: "20%",
         marginTop: "10%",
         borderRadius: 20,
       }}
     >
-      <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.container}>
         {Object.keys(props.McQList[currentQuestion]).map(function (k) {
           var Op = props.McQList[currentQuestion][k].option;
           var Op1 = props.McQList[currentQuestion][k].Question;
@@ -476,6 +476,7 @@ export const Data1 = (props) => {
                   return (
                     <BasicButton
                       onPress={() => handleAnswerOptionClick(correctAns, k1)}
+                    
                       // title={Op[k]}
                       title={Op[k1]}
                       color="black"
@@ -488,7 +489,7 @@ export const Data1 = (props) => {
                       buttonStyle={{
                         margin: 10,
                         paddingTop: 10,
-                        width: width - 200,
+                        width: width - 100,
                         alignSelf: "center",
                         paddingBottom: 10,
                         paddingRight: 20,
@@ -581,7 +582,7 @@ export const Data1 = (props) => {
                    );
                  })}
                </View> */}
-      </View>
+      </ScrollView>
     </View>
   );
 };

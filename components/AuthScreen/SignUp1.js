@@ -11,7 +11,7 @@ import { Picker } from "@react-native-picker/picker";
 import { TextInput } from "react-native-gesture-handler";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { Register } from "../Url";
+import { Register,RegisterUser } from "../Url";
 import FormButton from "./ButtonFormik";
 import ErrorMessage from "./ErrorFormik";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -75,15 +75,16 @@ const SignUp = ({ navigation }) => {
       values.confirmPassword.length > 0
     ) {
       // alert(values.Class)
-alert("Unable To SignUp")
-      // await Register(
-      //   values.name,
-      //   values.email,
-      //   values.password,
-      //   values.confirmPassword,
-      //   navigation
-      // );
-            // await RegisterUser(values.email, values.password, navigation).then(
+// alert("Unable To SignUp")
+      await RegisterUser(
+        values.name,
+        values.email,
+        values.password,
+        values.confirmPassword,
+        navigation
+      );
+            // await RegisterUser(values.email, values.password, navigation)
+            //.then(
             //   async (res) => {
             //     //await setUser(res);
             //     await AsyncStorage.setItem("@MySuperStore:key", JSON.stringify(res));

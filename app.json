@@ -5,12 +5,12 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "githubUrl":"https://github.com/prajwalprogrammer/ExamApp-in-react-native",
-    "icon": "./assets/operand.png",
+    "icon": "./assets/logo2.png",
     "androidStatusBar":{
-      "backgroundColor":"#12217A"
+      "backgroundColor":"#336699"
     },
     "splash": {
-      "image": "./assets/operand.png",
+      "image": "./assets/logo2.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -25,7 +25,8 @@
     },
     "android": {
       "package": "com.operand.ExamDemo",
-      "versionCode": 1
+      "versionCode": 1,
+      "enableDangerousExperimentalLeanBuilds":true
     },
 
     "web": {

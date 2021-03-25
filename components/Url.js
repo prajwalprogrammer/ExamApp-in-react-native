@@ -13,20 +13,19 @@ export const fetchdailydata = async (Email, Password, navigation) => {
       // email: 'value@gmail.com',
       // mobile: '902115565',
     );
-    if(data ==="Invalid Username or Password Please Try Again")
-        return data;
-    else{
-            const modifiedit = data.map((dailyData) => ({
-              id: JSON.parse(dailyData.studid),
-              name: dailyData.studname,
-              email: dailyData.studemail,
-              mobile: JSON.parse(dailyData.studmobile),
-              classid: JSON.parse(dailyData.studeclassid),
-              gender: dailyData.studgender,
-            }));
-            console.log("Mod" + modifiedit);
-            return modifiedit;
-          }
+    if (data === "Invalid Username or Password Please Try Again") return data;
+    else {
+      const modifiedit = data.map((dailyData) => ({
+        id: JSON.parse(dailyData.studid),
+        name: dailyData.studname,
+        email: dailyData.studemail,
+        mobile: JSON.parse(dailyData.studmobile),
+        classid: JSON.parse(dailyData.studeclassid),
+        gender: dailyData.studgender,
+      }));
+      console.log("Mod" + modifiedit);
+      return modifiedit;
+    }
   } catch (error) {
     console.log(error);
   }
@@ -137,17 +136,24 @@ export const RegisterUser = async (name, email, mobile, gender, navigation) => {
       // email: 'value@gmail.com',
       // mobile: '902115565',
     );
-        // const modifiedit = {
-        // // id: JSON.parse(dailyData.studid),
-        //   name: dailyData.studname,
-        //   email: dailyData.studemail,
-        //   mobile: JSON.parse(dailyData.studmobile),
-        // // classid: JSON.parse(dailyData.studeclassid),
-        //   gender: dailyData.studgender,
-        // };
-        // console.log("Mod" + modifiedit);
+    console.log(data);
+    if (data === "Email Already Exist, Please Try Again !!!") {alert(data);
+    return}
+    else{
+      alert("Register Sucessfully Pleases Login ")
+      navigation.navigate("LoginScreen")
+    }
+    // const modifiedit = {
+    // // id: JSON.parse(dailyData.studid),
+    //   name: dailyData.studname,
+    //   email: dailyData.studemail,
+    //   mobile: JSON.parse(dailyData.studmobile),
+    // // classid: JSON.parse(dailyData.studeclassid),
+    //   gender: dailyData.studgender,
+    // };
+    // console.log("Mod" + modifiedit);
 
-    return modifiedit;
+   // return modifiedit;
   } catch (error) {
     console.log(error);
   }
@@ -277,7 +283,7 @@ export const getVideo = async (TopicId) => {
       lesswisevideo: dailyData.lesswisevideo,
     }));
     // console.log("object"+JSON.stringify(modifiedit[0].lesswisedesc))
-    return modifiedit
+    return modifiedit;
   } catch (error) {
     console.log(error);
   }

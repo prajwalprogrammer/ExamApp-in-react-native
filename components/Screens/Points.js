@@ -29,18 +29,26 @@ import {
 import SubjectCard from "./SubjectCard";
 import Cards from "./Cards";
 import { getTopic } from "../Url";
+import Spinner from "react-native-loading-spinner-overlay";
 
 const height = Dimensions.get("screen").height;
 
 export const Points = ({ route, navigation }) => {
-  const [Spin, setSpin] = useState(true);
+  const [Spin, setSpin] = useState();
   const [TopicList, setTopicList] = useState([]);
   useEffect(() => {
+    setSpin(true)
     const message = navigation.getParam("SubId");
     const fetchAPI = async () => {
       setTopicList(await getTopic(message));
     };
     fetchAPI();
+    if (TopicList) {
+      setTimeout(() => {
+        setSpin(false);
+      }, 3000);
+      
+    }
   }, []);
   var Ire = [];
   for (let i = 0; i < 8; i++) {
@@ -56,7 +64,7 @@ export const Points = ({ route, navigation }) => {
   return (
     <View style={{}}>
       <StatusBar style="light" />
-      <Header style={{ height: 80 }}>
+      <Header style={{ height: 80,backgroundColor:'#336699' }} androidStatusBarColor="#336699">
         <Left>
           <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
             <Ionicons name="chevron-back-circle" size={40} color="white" />
@@ -72,7 +80,7 @@ export const Points = ({ route, navigation }) => {
       <View style={{ flex: 1 }}>
         <LinearGradient
           // Background Linear Gradient
-          colors={["#12217A", "#3246BF", "#566DF7", "transparent"]}
+          colors={["#3973ac", "#4080bf", "#538cc6", "transparent"]}
           // colors={['rgba(0,0,0,0.8)', 'transparent']}
           style={styles.background}
         >
@@ -82,38 +90,38 @@ export const Points = ({ route, navigation }) => {
                 marginVertical: 10,
                 marginBottom: 15,
                 width: "100%",
-               // flexDirection: "row",
-               // flexWrap: "wrap",
-               alignItems:'center'
+                // flexDirection: "row",
+                // flexWrap: "wrap",
+                alignItems: "center",
               }}
             >
-              {TopicList ? (
-                TopicList.map((SUB) => {
-                  return (
-                    <TouchableWithoutFeedback
-                      onPress={() =>
-                        navigation.navigate("Topics", {
-                          TopicId: SUB.Topicid,
-                        })
-                      }
-                      key={SUB.Topicid}
-                    >
-                      {/* <Cards
-                    name={SUB.Topic}
-                    mr={20}
-                    img={require("../../assets/out.png")}
-                  /> */}
-                      <SubjectCard Topic={SUB.Topic} />
-                    </TouchableWithoutFeedback>
-                  );
-                })
-              ) : (
-                <Spinner
-                  visible={Spin}
-                  textContent={"Loading..."}
-                  textStyle={styles.spinnerTextStyle}
-                />
-              )}
+              <Spinner
+                visible={Spin}
+                textContent={"Loading..."}
+                textStyle={styles.spinnerTextStyle}
+              />
+              {TopicList
+                ? TopicList.map((SUB) => {
+                    return (
+                      <TouchableWithoutFeedback
+                        onPress={() =>
+                          navigation.navigate("Topics", {
+                            TopicId: SUB.Topicid,
+                          })
+                        }
+                        key={SUB.Topicid}
+                      >
+                        {/* <Cards
+                          name={SUB.Topic}
+                          mr={20}
+                          img={require("../../assets/out.png")}
+                        /> */}
+                        <SubjectCard Topic={SUB.Topic} />
+                      </TouchableWithoutFeedback>
+                    );
+                  })
+                : null}
+              
             </View>
           </ScrollView>
         </LinearGradient>

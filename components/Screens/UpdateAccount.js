@@ -82,7 +82,7 @@ const UpdateAccount = ({ route, navigation }) => {
   return (
     <View>
       <StatusBar style="light" />
-      <Header style={{  height: 80  }}>
+      <Header style={{  height: 80,backgroundColor:'#336699'  }} androidStatusBarColor="#336699">
         <Left>
           <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
             <Ionicons name="chevron-back-circle" size={40} color="white" />
@@ -97,7 +97,7 @@ const UpdateAccount = ({ route, navigation }) => {
       <View style={{ flex: 1 }}>
         <LinearGradient
           // Background Linear Gradient
-          colors={["#12217A", "#3246BF", "#566DF7", "transparent"]}
+          colors={["#3973ac", "#4080bf", "#538cc6", "transparent"]}
           // colors={['rgba(0,0,0,0.8)', 'transparent']}
           style={styles.background}
         >
