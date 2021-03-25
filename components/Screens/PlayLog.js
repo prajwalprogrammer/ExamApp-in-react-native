@@ -437,9 +437,10 @@ export const Data1 = (props) => {
     }
   };
   return (
-    <View
-      style={{
-        height: height - 250,
+    <ScrollView
+    
+    contentContainerStyle={{
+       // height: height - 350,
         width: width - 40,
         backgroundColor: "#eee",
         paddingTop: 30,
@@ -583,7 +584,7 @@ export const Data1 = (props) => {
                  })}
                </View> */}
       </ScrollView>
-    </View>
+    </ScrollView>
   );
 };
 export default Data1;
