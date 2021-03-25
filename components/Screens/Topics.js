@@ -40,6 +40,7 @@ import Exam from "./Exam";
 import Data1 from "./PlayLog";
 import { GetMcq, getVideo } from "../Url";
 import Icon from "react-native-vector-icons/FontAwesome";
+import Audio1 from "./Audio";
 
 const height = Dimensions.get("screen").height;
 
@@ -50,6 +51,7 @@ export const Topics = ({ route, navigation }) => {
     { key: "first", title: "Des" },
     { key: "second", title: "Video" },
     { key: "third", title: "Exam" },
+    { key: "four", title: "Audio" },
   ]);
   const [McqList, setMcqList] = useState();
   const [quizFinish, setQuizFinish] = useState(false);
@@ -75,7 +77,7 @@ export const Topics = ({ route, navigation }) => {
             <Icon name="trophy" size={30} color="white" />
           </View>
           <Text style={styles.score}>You need to work hard</Text>
-          <Text style={styles.score}>You scored %</Text>
+          <Text style={styles.score}>You scored {score}%</Text>
         </View>
       );
     } else if (score > 30 && score < 60) {
@@ -111,32 +113,63 @@ export const Topics = ({ route, navigation }) => {
     // this.setState({ quizFinish: true, score: score });
   };
 
-  const ThirdRoute = () => (
-    <View style={{ flex: 1, backgroundColor: "#ff4081" }}>
-      {/* {McqList?<Data1 McQList={McqList} />:null} */}
-      {quizFinish ? (
-        <View style={{ alignItem: "center", justifyContent: "center" }}>
-          <View style={styles.circle}>{ScoreMessage(score)}</View>
-        </View>
-      ) : // <Quiz quizFinish={(score) => this._quizFinish(score)} />
-      McqList ? (
-        <Data1 McQList={McqList} quizFinish={(score) => quizfinish(score)} />
-      ) : null}
-    </View>
-  );
-  const FirstRoute = () => (Data ? <Des Link={Data[0].lesswisedesc} /> : null);
-  const SecondRoute = () =>
-    Data ? <Video1 Link={JSON.stringify(Data[0].lesswisevideo)} /> : null;
-  const renderScene = SceneMap({
-    first: FirstRoute,
-    second: SecondRoute,
-    third: ThirdRoute,
-  });
-
+  // const ThirdRoute = () => (
+  //   <View style={{ flex: 1, backgroundColor: "#ffffff" }}>
+  //     {/* {McqList?<Data1 McQList={McqList} />:null} */}
+  //     {quizFinish ? (
+  //       <View style={{ alignSelf: "center", marginTop: "40%" }}>
+  //         <View style={styles.circle}>{ScoreMessage(score)}</View>
+  //       </View>
+  //     ) : // <Quiz quizFinish={(score) => this._quizFinish(score)} />
+  //     McqList ? (
+  //       <Data1 McQList={McqList} quizFinish={(score) => quizfinish(score)} />
+  //     ) : null}
+  //   </View>
+  // );
+  // const FirstRoute = () => (Data ? <Des Link={Data[0].lesswisedesc} /> : null);
+  // const SecondRoute = () =>
+    // Data ? <Video1 Link={JSON.stringify(Data[0].lesswisevideo)} /> : null;
+  // const renderScene = SceneMap({
+  //   first: FirstRoute,
+  //   second: SecondRoute,
+  //   third: ThirdRoute,
+  //   four: Audio1,
+  // });
+  const _renderScene = ({ route }) => {
+    switch (route.key) {
+      case "first":
+        return Data ? <Des Link={Data[0].lesswisedesc} /> : null;
+      case "second":
+        return Data ? (
+          <Video1 Link={JSON.stringify(Data[0].lesswisevideo)} />
+        ) : null;
+      case "third":
+        return (
+          <View style={{ flex: 1, backgroundColor: "#ffffff" }}>
+            {/* {McqList?<Data1 McQList={McqList} />:null} */}
+            {quizFinish ? (
+              <View style={{ alignSelf: "center", marginTop: "40%" }}>
+                <View style={styles.circle}>{ScoreMessage(score)}</View>
+              </View>
+            ) : // <Quiz quizFinish={(score) => this._quizFinish(score)} />
+            McqList ? (
+              <Data1
+                McQList={McqList}
+                quizFinish={(score) => quizfinish(score)}
+              />
+            ) : null}
+          </View>
+        );
+      case "four":
+        return Data?<Audio1 Link={Data[0].lesswiseaudio} />:null
+      default:
+        return null;
+    }
+  };
   return (
     <View style={{}}>
-      <StatusBar style="light" />
-      <Header style={{ height: 80, borderWidth: 0 }}>
+      <StatusBar barStyle='dark-content' />
+      <Header style={{ height: 80, borderWidth: 0,backgroundColor:'#336699' }}androidStatusBarColor="#336699">
         <Left>
           <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
             <Ionicons name="chevron-back-circle" size={40} color="white" />
@@ -159,11 +192,11 @@ export const Topics = ({ route, navigation }) => {
             lazy
             sceneContainerStyle={styles.container}
             navigationState={{ index, routes }}
-            renderScene={renderScene}
+            renderScene={_renderScene}
             onIndexChange={setIndex}
             initialLayout={initialLayout}
             renderTabBar={(props) => (
-              <TabBar {...props} style={{ backgroundColor: "#12217A" }} />
+              <TabBar {...props} style={{ backgroundColor: "#336699" }} />
             )}
           />
         </LinearGradient>

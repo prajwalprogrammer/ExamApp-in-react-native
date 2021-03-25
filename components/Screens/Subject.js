@@ -33,14 +33,20 @@ const height = Dimensions.get("screen").height;
 
 export const Subject = ({ route, navigation }) => {
   //const {ClassId}=route.params;
-  const [Spin, setSpin] = useState(true)
+  const [Spin, setSpin] = useState(null);
   const [SubList, setSubList] = useState([]);
   useEffect(() => {
+    setSpin(true);
     const message = navigation.getParam("ClassId");
     // alert(message)
     const fetchAPI = async () => {
       setSubList(await getSubject(message));
     };
+    if (SubList) {
+      setTimeout(() => {
+        setSpin(false);
+      }, 3000);
+    }
     fetchAPI();
   }, []);
   var Ire = [];
@@ -50,14 +56,14 @@ export const Subject = ({ route, navigation }) => {
         onPress={() => navigation.navigate("Points")}
         key={i}
       >
-        <Cards name="Subject" mr={20} img={require("../../assets/out.png")} />
+        <Cards name="Subject" mr={20} img={require("../../assets/Exam-Content-logo.png")} />
       </TouchableWithoutFeedback>
     );
   }
   return (
     <View style={{}}>
       <StatusBar style="light" />
-      <Header style={{ height: 80 }}>
+      <Header style={{ height: 80,backgroundColor:'#336699' }}androidStatusBarColor="#336699">
         <Left>
           <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
             <Ionicons name="chevron-back-circle" size={40} color="white" />
@@ -73,7 +79,7 @@ export const Subject = ({ route, navigation }) => {
       <View style={{ flex: 1 }}>
         <LinearGradient
           // Background Linear Gradient
-          colors={["#12217A", "#3246BF", "#566DF7", "transparent"]}
+          colors={["#3973ac", "#4080bf", "#538cc6", "transparent"]}
           // colors={['rgba(0,0,0,0.8)', 'transparent']}
           style={styles.background}
         >
@@ -87,32 +93,34 @@ export const Subject = ({ route, navigation }) => {
                 flexWrap: "wrap",
               }}
             >
-              {SubList ? (
-                SubList.map((SUB) => {
-                  return (
-                    <TouchableWithoutFeedback
-                      onPress={() =>
-                        navigation.navigate("Points", {
-                          SubId: SUB.subid,
-                        })
-                      }
-                      key={SUB.subid}
-                    >
-                      <Cards
-                        name={SUB.Subject}
-                        mr={20}
-                        img={require("../../assets/out.png")}
-                      />
-                    </TouchableWithoutFeedback>
-                  );
-                })
-              ):(
-                <Spinner
-                  visible={Spin}
-                  textContent={"Loading..."}
-                  textStyle={styles.spinnerTextStyle}
-                />
-              ) }
+              <Spinner
+                visible={Spin}
+                textContent={"Loading..."}
+                textStyle={styles.spinnerTextStyle}
+              />
+              {SubList
+                ? SubList.map((SUB) => {
+                    return (
+                      <TouchableWithoutFeedback
+                        onPress={() =>
+                          navigation.navigate("Points", {
+                            SubId: SUB.subid,
+                          })
+                        }
+                        key={SUB.subid}
+                      >
+                        <Cards
+                          name={SUB.Subject}
+                          mr={20}
+                          img={require("../../assets/Exam-Content-logo.png")}
+                        />
+                      </TouchableWithoutFeedback>
+                    );
+                  })
+                : // (
+
+                  // )
+                  null}
             </View>
           </ScrollView>
         </LinearGradient>

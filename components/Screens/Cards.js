@@ -43,14 +43,18 @@ export const Cards=(props)=>  {
               zIndex: -1,
               borderBottomRightRadius: 20,
               borderBottomLeftRadius: 20,
+              alignSelf:'center',
+              justifyContent:'center'
             }}
           >
-            <View style={{ alignSelf: "center", paddingTop: 40 }}>
+            <View style={{ alignSelf: "center",justifyContent:'center', paddingTop: 40 }}>
               <Title
                 style={{
                   fontSize: 25,
                   color: "red",
                   fontFamily: "sans-serif-condensed",
+                  alignSelf:'center',
+                  justifyContent:'center'
                 }}
               >
                 {props.name}

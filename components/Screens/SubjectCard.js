@@ -35,7 +35,7 @@ export default SubjectCard;
 
 const styles = StyleSheet.create({
   mid111: {
-    marginVertical: "4%",
+    marginVertical: "1%",
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
     borderBottomLeftRadius: 10,
