@@ -21,9 +21,9 @@ const SubjectCard = (props) => {
       {/* <Avatar rounded source={{ uri: avatar_url }} /> */}
       <ListItem.Content>
         <ListItem.Title
-          style={{ color: "black", fontWeight: "bold", fontSize: 18 ,alignSelf:'center'}}
+          style={{ color: "black", fontWeight: "bold", fontSize: 18 ,alignSelf:'flex-start'}}
         >
-          <Text>{props.Topic}</Text>
+          <Text>{props.id}.{props.Topic}</Text>
         </ListItem.Title>
       </ListItem.Content>
      

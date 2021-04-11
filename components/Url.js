@@ -31,7 +31,7 @@ export const fetchdailydata = async (Email, Password, navigation) => {
   }
 };
 export const Login1 = async (Email, Password, navigation) => {
-  alert(Email + Password);
+ // alert(Email + Password);
   //alert('fg');
   var obj = { email: Email, mobile: Password };
   var Data = [];
@@ -91,7 +91,6 @@ export const Login1 = async (Email, Password, navigation) => {
     .catch((err) => alert("hgh" + err));
 };
 export const Register = async (name, email, mobile, gender, navigation) => {
-  alert("hii");
   var obj = {
     name: name,
     mobile: mobile,
@@ -137,7 +136,7 @@ export const RegisterUser = async (name, email, mobile, gender, navigation) => {
       // mobile: '902115565',
     );
     console.log(data);
-    if (data === "Email Already Exist, Please Try Again !!!") {alert(data);
+    if (data === "Email Already Exist, Please Try Again !!!") {
     return}
     else{
       alert("Register Sucessfully Pleases Login ")

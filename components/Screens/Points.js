@@ -34,6 +34,7 @@ import Spinner from "react-native-loading-spinner-overlay";
 const height = Dimensions.get("screen").height;
 
 export const Points = ({ route, navigation }) => {
+  let I=1;
   const [Spin, setSpin] = useState();
   const [TopicList, setTopicList] = useState([]);
   useEffect(() => {
@@ -73,7 +74,7 @@ export const Points = ({ route, navigation }) => {
         <Body>
           <Text h3 h3Style={{ color: "white" }}>
             {" "}
-            Select Topic
+            Content
           </Text>
         </Body>
       </Header>
@@ -102,21 +103,25 @@ export const Points = ({ route, navigation }) => {
               />
               {TopicList
                 ? TopicList.map((SUB) => {
+                  
                     return (
                       <TouchableWithoutFeedback
                         onPress={() =>
                           navigation.navigate("Topics", {
                             TopicId: SUB.Topicid,
+                            
                           })
                         }
                         key={SUB.Topicid}
                       >
+                        
                         {/* <Cards
                           name={SUB.Topic}
                           mr={20}
                           img={require("../../assets/out.png")}
                         /> */}
-                        <SubjectCard Topic={SUB.Topic} />
+                        <SubjectCard Topic={SUB.Topic} id={I++} />
+                        
                       </TouchableWithoutFeedback>
                     );
                   })

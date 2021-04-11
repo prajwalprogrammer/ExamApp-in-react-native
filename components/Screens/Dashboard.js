@@ -1,5 +1,13 @@
 import React, { useState, useContext, useEffect } from "react";
-import { View, StatusBar, SafeAreaView, Image, Button ,StyleSheet,Dimensions} from "react-native";
+import {
+  View,
+  StatusBar,
+  SafeAreaView,
+  Image,
+  Button,
+  StyleSheet,
+  Dimensions,
+} from "react-native";
 
 import AsyncStorage from "@react-native-community/async-storage";
 import { LinearGradient } from "expo-linear-gradient";
@@ -55,14 +63,16 @@ export const DashBoard = ({ navigation }) => {
         barStyle={"dark-content"}
         style={{ backgroundColor: "#336699" }}
       />
-      <Header style={{ height: 80, backgroundColor: "#336699" }} androidStatusBarColor="#336699">
+      <Header
+        style={{ height: 80, backgroundColor: "#336699" }}
+        androidStatusBarColor="#336699"
+      >
         <Left>
-          <Image source={require("../../assets/out.png")} />
+          <Image source={require("../../assets/operand-removebg-preview.png")} resizeMode="contain" style={{width:"80%"}} />
         </Left>
         <Body>
-          <Text h3 h3Style={{ color: "white" }}>
-            {" "}
-            Dashboard
+          <Text h4 h4Style={{ color: "white", fontSize: 27 }}>
+            Exam Demo
           </Text>
         </Body>
         <Right>
@@ -135,36 +145,40 @@ export const DashBoard = ({ navigation }) => {
           />
         </View>
       ) : null}
-      <View style={{flex:1}}>
-      <LinearGradient
+      <View style={{ flex: 1 }}>
+        <LinearGradient
           // Background Linear Gradient
           colors={["#3973ac", "#4080bf", "#538cc6", "transparent"]}
           // colors={['rgba(0,0,0,0.8)', 'transparent']}
           style={styles.background}
         >
-      <View
-        style={{
-          marginVertical: 10,
-          marginBottom: 15,
-          width: "100%",
-          flexDirection: "row",
-          flexWrap: "wrap",
-        }}
-      >
-        <TouchableWithoutFeedback
-          onPress={() =>
-            navigation.navigate("Subject", {
-              ClassId: PrintedData[0].classid,
-            })
-          }
-        >
-          <Cards name="Subject" mr={20} img={require("../../assets/Exam-Content-logo.png")} />
+          <View
+            style={{
+              marginVertical: 10,
+              marginBottom: 15,
+              width: "100%",
+              flexDirection: "row",
+              flexWrap: "wrap",
+            }}
+          >
+            <TouchableWithoutFeedback
+              onPress={() =>
+                navigation.navigate("Subject", {
+                  ClassId: PrintedData[0].classid,
+                })
+              }
+            >
+              <Cards
+                name="Subject"
+                mr={20}
+                img={require("../../assets/Exam-Content-logo.png")}
+              />
+            </TouchableWithoutFeedback>
+            <TouchableWithoutFeedback onPress={()=>navigation.navigate("ExamLink")}>
+          <Cards name="Exam" mr={20} img={require("../../assets/examination-flat-red-color-rounded-glyph-icon-FHFB0E-removebg-preview.png")} />
         </TouchableWithoutFeedback>
-        {/* <TouchableWithoutFeedback>
-          <Cards name="Exam" mr={20} img={require("../../assets/out.png")} />
-        </TouchableWithoutFeedback> */}
-      </View>
-      </LinearGradient>
+          </View>
+        </LinearGradient>
       </View>
       {/* <View style={{ width: "100%" }}>
         <Image
@@ -177,7 +191,7 @@ export const DashBoard = ({ navigation }) => {
   );
 };
 export default DashBoard;
-const styles=StyleSheet.create({
+const styles = StyleSheet.create({
   background: {
     position: "relative",
     left: 0,
@@ -185,4 +199,4 @@ const styles=StyleSheet.create({
     top: 0,
     height: height,
   },
-})
+});

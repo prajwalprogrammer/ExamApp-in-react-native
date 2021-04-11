@@ -48,10 +48,11 @@ const initialLayout = { width: Dimensions.get("window").width };
 export const Topics = ({ route, navigation }) => {
   const [index, setIndex] = useState(0);
   const [routes] = useState([
-    { key: "first", title: "Des" },
+    
+    { key: "first", title: "Text" },
     { key: "second", title: "Video" },
-    { key: "third", title: "Exam" },
-    { key: "four", title: "Audio" },
+    { key: "third", title: "Audio" },
+    { key: "four", title: "Exam" },
   ]);
   const [McqList, setMcqList] = useState();
   const [quizFinish, setQuizFinish] = useState(false);
@@ -143,7 +144,7 @@ export const Topics = ({ route, navigation }) => {
         return Data ? (
           <Video1 Link={JSON.stringify(Data[0].lesswisevideo)} />
         ) : null;
-      case "third":
+      case "four":
         return (
           <View style={{ flex: 1, backgroundColor: "#ffffff" }}>
             {/* {McqList?<Data1 McQList={McqList} />:null} */}
@@ -160,7 +161,7 @@ export const Topics = ({ route, navigation }) => {
             ) : null}
           </View>
         );
-      case "four":
+      case "third":
         return Data?<Audio1 Link={Data[0].lesswiseaudio} />:null
       default:
         return null;
@@ -177,7 +178,7 @@ export const Topics = ({ route, navigation }) => {
         </Left>
         <Body>
           <Text h3 h3Style={{ color: "white" }}>
-            Tutorial
+            Topic {navigation.getParam("TopicId")}
           </Text>
         </Body>
       </Header>
